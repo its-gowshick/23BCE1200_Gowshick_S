@@ -1,0 +1,33 @@
+show databases;
+
+create database 23bce1200;
+
+create database temp;
+
+drop database temp;
+
+use 23bce1200;
+
+create table std_record(
+roll_no int8,
+name varchar(50),
+branch varchar(50)
+);
+
+show tables from 23bce1200;
+
+select * from std_record;
+
+insert into std_record values(101,"Gowshick","cse");
+
+create table marks(
+roll_no int8,
+sub_name varchar(50),
+marks int1
+);
+
+insert into marks values(101,"maths",100);
+insert into marks values(101,"tamil",100);
+insert into marks values(101,"english",95);
+
+select * from marks;
