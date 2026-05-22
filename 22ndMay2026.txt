@@ -1,0 +1,48 @@
+use 23bce1200;
+
+create table depts(
+d_id int primary key,
+d_name varchar(25) not null unique
+);
+
+insert into depts values(101,"cse"),(102,"ece"),(103,"eee"),(104,"mech");
+
+select * from depts order by d_name asc;
+
+create table hod(
+h_id int primary key,
+h_name varchar(20) not null unique
+);
+
+insert into hod values(101,"gowshick"),(102,"karthi"),(103,"bavan"),(104,"abi");
+
+select * from hod order by h_id desc;
+
+select * from depts cross join hod order by d_id;
+
+select * from depts inner join hod where depts.d_id=hod.h_id;
+
+select * from depts inner join hod on depts.d_id=hod.h_id;
+
+insert into hod values(105,"kkk");
+
+select * from depts natural join hod;
+
+select * from depts left outer join hod on (depts.d_id=hod.h_id) order by d_id asc;
+
+insert into depts values(106,"civil");
+
+select * from depts left outer join hod on (depts.d_id=hod.h_id) order by d_id asc;
+
+select * from depts right outer join hod on (depts.d_id=hod.h_id) order by d_id asc;
+
+select * from depts full outer join hod on (depts.d_id=hod.h_id) order by d_id asc;
+
+
+
+drop table worker;
+
+-- --------------------------------------------
+
+
+
