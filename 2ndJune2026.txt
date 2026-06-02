@@ -1,0 +1,241 @@
+mysql
+
+
+
+
+package CRUD;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class CRUD_Test {
+
+    public static void main(String[] args) {
+
+        CRUD_Test obj = new CRUD_Test();
+
+        obj.create_data(1, "jinu", "jinu@gmail.com");
+        obj.create_data(2, "jawad", "jawad@gmail.com");
+
+        obj.read_data();
+        
+//        obj.alter_table();
+        
+        obj.truncate_data();
+        
+
+//        obj.update_data(2, 22, "jawad2", "jawad2@gmail.com");
+//
+//        obj.read_data();
+//
+//        obj.delete_data(1);
+//
+//        obj.read_data();
+    }
+
+    public void create_data(int sl_no,
+                            String name,
+                            String email) {
+
+        DB_Connection db = new DB_Connection();
+
+        Connection con = db.get_connection();
+
+        try {
+
+            String query =
+                    "INSERT INTO user(sl_no,name,email) VALUES(?,?,?)";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ps.setInt(1, sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+
+            ps.executeUpdate();
+
+            System.out.println("Inserted");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void read_data() {
+
+        DB_Connection db = new DB_Connection();
+
+        Connection con = db.get_connection();
+
+        try {
+
+            String query = "SELECT * FROM user where sl_no=2;";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+
+                System.out.println(
+                        rs.getInt("sl_no")
+                        + " "
+                        + rs.getString("name")
+                        + " "
+                        + rs.getString("email"));
+            }
+            System.out.println("No more rows.");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update_data(int sl_no,
+                            int new_sl_no,
+                            String name,
+                            String email) {
+
+        DB_Connection db = new DB_Connection();
+
+        Connection con = db.get_connection();
+
+        try {
+
+            String query =
+                    "UPDATE user SET sl_no=?,name=?,email=? WHERE sl_no=?";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ps.setInt(1, new_sl_no);
+            ps.setString(2, name);
+            ps.setString(3, email);
+            ps.setInt(4, sl_no);
+
+            ps.executeUpdate();
+
+            System.out.println("Updated");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void delete_data(int sl_no) {
+
+        DB_Connection db = new DB_Connection();
+
+        Connection con = db.get_connection();
+
+        try {
+
+            String query =
+                    "DELETE FROM user WHERE sl_no=?";
+
+            PreparedStatement ps =
+                    con.prepareStatement(query);
+
+            ps.setInt(1, sl_no);
+
+            ps.executeUpdate();
+
+            System.out.println("Deleted");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void alter_table() {
+
+        DB_Connection db = new DB_Connection();
+
+        Connection con = db.get_connection();
+
+        try {
+
+            String query =
+                "ALTER TABLE user ADD phone VARCHAR(15)";
+
+
+            PreparedStatement ps =
+                con.prepareStatement(query);
+
+            ps.executeUpdate();
+
+            System.out.println("Column Added");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void truncate_data() {
+
+        DB_Connection db = new DB_Connection();
+        Connection con = db.get_connection();
+
+        try {
+
+            String query = "TRUNCATE TABLE user";
+
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.executeUpdate();
+
+            System.out.println("Table truncated successfully");
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+-------------------------------------------------------------------------
+
+mongodb
+
+DB_Connection.java  
+
+package crud;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
+
+public class DB_Connection {
+
+    public MongoDatabase get_connection() {
+
+        MongoDatabase database = null;
+
+        try {
+
+            MongoClient mongo =
+                    new MongoClient("localhost", 27017);
+
+            database =
+                    mongo.getDatabase("crud");
+
+            System.out.println("MongoDB Connected");
+
+        }
+        catch(Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return database;
+    }
+
+    public static void main(String[] args) {
+
+        DB_Connection db =
+                new DB_Connection();
+
+        System.out.println(
+                db.get_connection());
+    }
+}
