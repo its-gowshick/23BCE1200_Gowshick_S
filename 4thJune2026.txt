@@ -644,3 +644,10 @@ db.products.deleteMany({})
   acknowledged: true,
   deletedCount: 3
 }
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+rename,unset in eclipse in another pdf document
