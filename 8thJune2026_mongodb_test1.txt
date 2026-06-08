@@ -91,7 +91,7 @@ db.students.updateMany(
 
 9. Add a new field 'scholarship' with value false to all CS students using $set.
 
-b.students.updateMany({
+db.students.updateMany({
   dept:"CS"
 },
 {
